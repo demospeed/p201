@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>BHEL BAP M.P SHOP</title>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=0.6">
+
+        <link type="text/css" rel="stylesheet" href="/assets/plugins/datatables/style.css" />
+        <link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css" />
+        <link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/plug-ins/1.10.13/features/mark.js/datatables.mark.css" />
+        <link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/4.1.0/css/fixedColumns.dataTables.min.css" />
+        <link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/4.1.0/css/fixedColumns.dataTables.min.css" />
+        <link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.2.4/css/fixedHeader.dataTables.min.css" />
+        <link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/autofill/2.4.0/css/autoFill.dataTables.min.css" />
+
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.13/features/mark.js/datatables.mark.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/fixedcolumns/4.1.0/js/dataTables.fixedColumns.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.colVis.min.js"></script>
+        <script type="text/javascript" src="/assets/plugins/datatables/fixedHeader.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/autofill/2.4.0/js/dataTables.autoFill.min.js"></script>
+        <style>
+            *{
+                margin:0px; 
+                padding:0px;
+                box-sizing:border-box;
+            }
+            body{
+                margin:0px; 
+                padding:0px;
+                box-sizing:border-box;
+            }
+            table{
+                table-layout: fixed;
+            }
+            .dtfc-fixed-left, .dtfc-fixed-right, .dtfc-right-bottom-blocker{
+                background-color:#fff;
+            }
+         
+            th, td { white-space: nowrap; }
+            div.dataTables_wrapper {
+                width:100%;
+                height:100%;
+            }
+            .dataTables_scrollFoot{
+                position:fixed;
+                bottom:30px;
+                left:10px;
+                background-color:#fff;
+                width:100%;
+                z-index:1;
+            }
+            .dataTables_info{
+                position:fixed;
+                padding-bottom:10px;
+                bottom:0px;
+                left:10px;
+                background-color:#fff;
+                width:100%;
+                z-index:1;
+            }
+        </style>
+    </head>
+    <body>
+        <div style="padding:10px;">
+            <table id="example" class="display" style="width:466px;">
+                <thead>
+                    <tr>
+                        <th>S/No</th>
+                        <th>Bay</th>
+                        <th>Work Order</th>
+                        <th>DU</th>
+                        <th>Qty</th>
+                        <th>Thic</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>S/No</th>
+                        <th>Bay</th>
+                        <th>Work Order</th>
+                        <th>DU</th>
+                        <th>Qty</th>
+                        <th>Thic</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <script>
+            $(document).ready(function() {
+                // Setup - add a text input to each footer cell
+                $('#example tfoot th').each(function() {
+                    var title = $(this).text();
+                    var colum1 = $(this).text ();
+                    $(this).html('<input style="width:100%;" type="text" placeholder=" Search ' + title + '" />');
+                });
+
+                // DataTable
+                var table = $('#example').DataTable({
+
+                    dom: 'Bfrtip',
+                    buttons: [
+                        'colvis',
+                        {
+                            extend: 'pdfHtml5',
+                            download: 'open'
+                        },
+                    ],
+            
+                    fixedColumns:   {
+                        left: 1,
+                        right: 1
+                    },
+                    fixedHeader:           {
+                        header: true,
+                        footer: false
+                    },
+
+                    scrollX: true,
+                    scrollY: 'auto',
+                    scrollCollapse: true,
+                    paging: false,
+                    ajax: 'assets/data/arrays.json',
+                    autoWidth: false,
+                    autoFill:true,
+                    columnDefs: [
+                        {
+                         "width": '30px',
+                            "targets": 0,
+                        }, {
+                         "width": '30px',
+                            "targets": 1,
+                        }, {
+                            "width": '100px',
+                            "targets": 2,
+                        }, {
+                         "width": '30px',
+                            "targets": 3,
+                        }, {
+                         "width": '30px',
+                            "targets": 4,
+                        }, {
+                         "width": '30px',
+                            "targets": 5,
+                        }, 
+                    ],
+
+                    initComplete: function() {
+                        // Apply the search
+                        this.api().columns().every(function() {
+                            var that = this;
+                            $('input', this.footer()).on('keyup change clear', function() {
+                                if(that.search() !== this.value) {
+                                    that.search(this.value).draw();
+                                }
+                            });
+                        });
+                    },
+
+                });
+            });       
+        </script>
+    </body>
+</html>
