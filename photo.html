@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>JavaScript example</title>
+		<meta charSet="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<style media="only screen">
+            html, body {
+                height: 100%;
+                width: 100%;
+                margin: 0;
+                box-sizing: border-box;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            html {
+                position: absolute;
+                top: 0;
+                left: 0;
+                padding: 0;
+                overflow: auto;
+            }
+
+            body {
+                padding: 1rem;
+                overflow: auto;
+            }
+            .zoomin img {
+              height: 20px;
+              width: 20px;
+              -webkit-transition: all 2s ease;
+              -moz-transition: all 2s ease;
+              -ms-transition: all 2s ease;
+              transition: all 2s ease;
+            }
+            .zoomin img:hover {
+              top: 0;
+              bottom: 0;
+              right: 0;
+              left: 0;
+              margin: 0;
+              position:relative;
+              display:block;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+              background-color: rgba(0,0,0,0.8);
+              z-index:5;
+              width: 100px;
+              height: 100px;
+            }
+        </style>
+	</head>
+	<body>
+		<div id="myGrid" style="height: 100%" class="ag-theme-alpine"></div>
+		<script src="https://cdn.jsdelivr.net/npm/ag-grid-community@29.0.0/dist/ag-grid-community.min.js"></script>
+		<script>
+      //genderRenderer.js --- PhotoRenderer.js
+      class PhotoRenderer {
+        init(params) {
+          this.eGui = document.createElement('span');
+          this.eGui.innerHTML = `
+          <div class="zoomin">
+            <img src="https://www.ag-grid.com/example-assets/genders/${params.value}.png"/>
+          </div>
+          `;
+        }
+
+        getGui() {
+          return this.eGui;
+        }
+
+        refresh(params) {
+          return false;
+        }
+      }
+		</script>
+
+		<script>
+      //main.js
+      const rowData = [
+        { StaffNo: 6200501,},
+        { StaffNo: 6200502,},
+        { StaffNo: 6200503,},
+        { StaffNo: 6200504,},
+        { StaffNo: 6200505,},
+        { StaffNo: 'female', },
+        { StaffNo: 'male',},
+      ];
+
+      /** @type {import('ag-grid-community').GridOptions} */
+      const gridOptions = {
+        columnDefs: [
+          { field: 'StaffNo' },
+          {
+            headerName: 'Photo',
+            field: 'StaffNo',
+            cellRendererSelector: (params) => {
+              const PhotoDetails = {
+                component: PhotoRenderer,
+              };
+              if (params.data) {
+                return PhotoDetails;
+              }
+              return undefined;
+            },
+          },
+        ],
+        defaultColDef: {
+          flex: 1,
+        },
+        rowData: rowData,
+      };
+
+      // setup the grid after the page has finished loading
+      document.addEventListener('DOMContentLoaded', function () {
+        const gridDiv = document.querySelector('#myGrid');
+        new agGrid.Grid(gridDiv, gridOptions);
+      });
+		</script>
+	</body>
+</html>
